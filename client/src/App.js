@@ -1,11 +1,12 @@
+import "materialize-css/dist/css/materialize.min.css";
 import React from "react";
-import InfiniteArticles from "./infinite-articles/infinite-articles.component";
+import Articles
+ from "./components/list/list.component";
 
 function App() {
-
   return (
     <div>
-      <InfiniteArticles />
+      <Articles />
     </div>
   );
 }
