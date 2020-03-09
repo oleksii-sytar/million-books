@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 
 import { SearchInputContainer } from "./search.styles";
 
-const Search = ({ submitHandler, changeHandler }) => {
+const Search = ({ submitHandler }) => {
   const [seachQuery, setSeachQuery] = useState('');
 
   return (
@@ -17,7 +17,7 @@ const Search = ({ submitHandler, changeHandler }) => {
             type="text"
             className="validate"
             value={seachQuery}
-            onChange={e => { changeHandler(e.target.value); setSeachQuery(e.target.value)}}
+            onChange={e => { setSeachQuery(e.target.value)}}
           />
           <label className="active">Search query</label>
         </div>
@@ -27,4 +27,4 @@ const Search = ({ submitHandler, changeHandler }) => {
   )
 }
 
-export default Search;
+export default memo(Search);

@@ -1,42 +1,30 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import List from "react-virtualized/dist/commonjs/List";
 
 import dataRow from "../data-row/data-row.component";
 import Search from "../search/search.component";
 
 import { ListContainer, RowsCountContainer } from "./list.styles";
+import useBooksList from "./use-books-list.hook";
 
-const ArticlesList = () => {
-  const [booksList, setBooksList] = useState([]);
+const ListComponent = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
-  useEffect(() => {
-    (async () => {
-      const res = await fetch('/api/books');
-      const data = await res.json();
-
-      setBooksList(data);
-    })()
-  }, []);
+  const booksList = useBooksList();
 
   const filteredList = useMemo(
-    () => booksList.filter(book => {
-      return (
-        book.name.includes(searchQuery) ||
-        book.author.name.includes(searchQuery) ||
-        book.author.gender.includes(searchQuery) ||
-        book.genre.includes(searchQuery)
-      )
-    }),
+    () => booksList.filter(book => (
+      book.name.includes(searchQuery) ||
+      book.author.name.includes(searchQuery) ||
+      book.author.gender.includes(searchQuery) ||
+      book.genre.includes(searchQuery)
+    )),
     [booksList, searchQuery]
   );
 
   return (
     <div>
-      <Search
-        submitHandler={d => setSearchQuery(d)}
-        changeHandler={d => setSearchQuery(d)}
-      />
+      <Search submitHandler={d => { setSearchQuery(d) }} />
 
       <RowsCountContainer>
         Results: { filteredList.length }
@@ -55,4 +43,4 @@ const ArticlesList = () => {
   )
 }
 
-export default ArticlesList;
+export default ListComponent;
