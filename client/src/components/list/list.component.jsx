@@ -1,4 +1,4 @@
-import React, { useState, useMemo, Fragment } from "react";
+import React, { useState, useMemo } from "react";
 import List from "react-virtualized/dist/commonjs/List";
 
 import dataRow from "../data-row/data-row.component";
