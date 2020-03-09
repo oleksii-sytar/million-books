@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, Fragment } from "react";
 import List from "react-virtualized/dist/commonjs/List";
 
 import dataRow from "../data-row/data-row.component";
@@ -27,17 +27,23 @@ const ListComponent = () => {
       <Search submitHandler={d => { setSearchQuery(d) }} />
 
       <RowsCountContainer>
-        Results: { filteredList.length }
+        Results: { booksList.length ? filteredList.length : 'Data fetching...'  }
       </RowsCountContainer>
 
       <ListContainer>
-        <List
-          width={800}
-          height={380}
-          rowCount={filteredList.length}
-          rowHeight={40}
-          rowRenderer={dataRow(filteredList)}
-        />
+        {
+          booksList.length ?
+          <List
+            width={800}
+            height={380}
+            rowCount={filteredList.length}
+            rowHeight={40}
+            rowRenderer={dataRow(filteredList)}
+          /> :
+          <div className="progress">
+            <div className="indeterminate"></div>
+          </div>
+        }
       </ListContainer>
     </div>
   )
