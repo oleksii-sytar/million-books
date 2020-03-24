@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import List from "react-virtualized/dist/commonjs/List";
 
 import dataRow from "../data-row/data-row.component";
@@ -7,27 +7,30 @@ import Search from "../search/search.component";
 import { ListContainer, RowsCountContainer } from "./list.styles";
 import useBooksList from "./use-books-list.hook";
 
+import data_handling_worker from "./data-handling.web-worker";
+
+const dataHandlingWorker = new Worker(data_handling_worker);
+
 const ListComponent = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [booksList, setBooksList] = useState([]);
 
-  const booksList = useBooksList();
+  useEffect(() => {
+    dataHandlingWorker.postMessage(searchQuery);
+  }, [searchQuery]);
 
-  const filteredList = useMemo(
-    () => booksList.filter(book => (
-      book.name.includes(searchQuery) ||
-      book.author.name.includes(searchQuery) ||
-      book.author.gender.includes(searchQuery) ||
-      book.genre.includes(searchQuery)
-    )),
-    [booksList, searchQuery]
-  );
+  useEffect(() => {
+    dataHandlingWorker.onmessage = (m) => {
+      setBooksList(m.data);
+    };
+  }, []);
 
   return (
     <div>
       <Search submitHandler={d => { setSearchQuery(d) }} />
 
       <RowsCountContainer>
-        Results: { booksList.length ? filteredList.length : 'Data fetching...'  }
+        Results: { booksList.length ? booksList.length : 'Data fetching...'  }
       </RowsCountContainer>
 
       <ListContainer>
@@ -36,9 +39,9 @@ const ListComponent = () => {
           <List
             width={800}
             height={380}
-            rowCount={filteredList.length}
+            rowCount={booksList.length}
             rowHeight={40}
-            rowRenderer={dataRow(filteredList)}
+            rowRenderer={dataRow(booksList)}
           /> :
           <div className="progress">
             <div className="indeterminate"></div>

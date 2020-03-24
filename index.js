@@ -51,7 +51,7 @@ const generateBook = () => ({
 app.use(bodyParser.json());
 
 app.get('/api/books', (req, res) => {
-  const data = new Array(1000000).fill().map(el => generateBook());
+  const data = new Array(1000).fill().map(el => generateBook());
   
   res.send(data);
   // res.sendFile(path.resolve(__dirname, 'data.json'));
