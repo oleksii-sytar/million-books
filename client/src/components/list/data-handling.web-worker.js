@@ -1,8 +1,9 @@
 const workercode = () => {
   onmessage = async e => {
-    const res = await fetch('/api/books');
+    const res = await fetch('http://localhost:3000/api/books');
+    const data = await res.json();
 
-    postMessage(res);
+    postMessage(data);
   }
 };
 
