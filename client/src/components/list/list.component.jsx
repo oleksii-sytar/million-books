@@ -1,14 +1,13 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import List from "react-virtualized/dist/commonjs/List";
 
 import dataRow from "../data-row/data-row.component";
 import Search from "../search/search.component";
 
 import { ListContainer, RowsCountContainer } from "./list.styles";
-import useBooksList from "./use-books-list.hook";
+// import useBooksList from "./use-books-list.hook";
 
 import data_handling_worker from "./data-handling.web-worker";
-
 const dataHandlingWorker = new Worker(data_handling_worker);
 
 const ListComponent = () => {
@@ -30,7 +29,7 @@ const ListComponent = () => {
       <Search submitHandler={d => { setSearchQuery(d) }} />
 
       <RowsCountContainer>
-        Results: { booksList.length ? booksList.length : 'Data fetching...'  }
+        Results: { booksList.length || 'Data fetching...' }
       </RowsCountContainer>
 
       <ListContainer>
