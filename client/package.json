@@ -6,7 +6,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "dexie": "^2.0.4",
+    "dexie": "^3.2.2",
     "faker": "^4.1.0",
     "http-proxy-middleware": "^0.20.0",
     "materialize-css": "^1.0.0",
